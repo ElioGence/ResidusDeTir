@@ -1,19 +1,20 @@
 # ResidusDeTir
 M2 BDIA – « Intelligence Artificielle pour le tri des Résidus De Tir (RDT) » 
-
-Les fichiers doivent être sauvegardés avec cette arborescence
-
-project_directory/
-│
-├── datasets/
-│   ├── predict/
-│   │   └── .csv          # Used for trying the prediction
-│   │
-│   └── training/
-│       └── .csv          # Used for training
-│
-├── results/
-│   ├── csv/
-│   └── plot/
-│
-└── .py files              # Python files
+</br>
+Les fichiers doivent être sauvegardés avec cette arborescence</br>
+</br>
+project_directory/ </br>
+│</br>
+├── datasets/</br>
+│   ├── predict/</br>
+│   │   └── .csv          # Used for trying the prediction</br>
+│   │</br>
+│   └── training/</br>
+│       └── .csv          # Used for training</br>
+│</br>
+├── results/</br>
+│   ├── csv/</br>
+│   └── plot/</br>
+│</br>
+└── .py files              # Python files</br>
+</br>
