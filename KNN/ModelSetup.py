@@ -6,7 +6,7 @@ from FileManipulation import *
 from collections import Counter
 import io
 
-def save_SubClass_Count(Data=None):
+def save_SubClass_Count(timeToken, Data=None):
     """
     Function save how many of each subclass there is in the data given 
     If no data specified it will take by default the one in datasets/training
@@ -18,7 +18,7 @@ def save_SubClass_Count(Data=None):
     sous_classe_count.column = ['Sous-classe','Nombre de valeur']
     sous_classe_count.to_csv(r"results\csv\Info_SousClasseDecompte.csv", sep=';', index=True)
 
-def setup_X_y(Data=None):
+def setup_X_y(timeToken, Data=None):
     """
     Function to setup the X and y for Machine Learning
     If no data specified it will take by default the one in datasets/training
@@ -32,22 +32,23 @@ def setup_X_y(Data=None):
         
     
     # Factorize the column (string to numerical value)
-    gunshot_data['ValueKNN'] = pd.factorize(gunshot_data['Sous-classe'])[0]
+    gunshot_data['ValueSubclass'] = pd.factorize(gunshot_data['Sous-classe'])[0]
     
     #We save in a csv the ValueKNN for each sous-classe 
-    sousClasseCSV = gunshot_data[['ValueKNN', 'Sous-classe']]
+    sousClasseCSV = gunshot_data[['ValueSubclass', 'Sous-classe']]
     sousClasseCSV = sousClasseCSV.drop_duplicates(subset='Sous-classe', keep='first')
-    sousClasseCSV.to_csv(r"results\csv\Info_CorrespondanceSousClasse.csv", sep=';', columns=['ValueKNN', 'Sous-classe'], index=False)
+    filepath= os.path.join("results", "csv", f"{timeToken}Info_CorrespondanceSousClasse.csv")
+    sousClasseCSV.to_csv(filepath, sep=';', columns=['ValueSubclass', 'Sous-classe'], index=False)
     
-    y = gunshot_data['ValueKNN']
+    y = gunshot_data['ValueSubclass']
     
     X = gunshot_data.drop('Sous-classe', axis=1)    
-    X = X.drop('ValueKNN', axis=1)   
+    X = X.drop('ValueSubclass', axis=1)   
     #We fill with 0 the non existant value
     X = X.fillna(0)
     return X, y
 
-def save_Train_Plot(X_train, X_test, y_train, y_test, filename="TrainingPlot.png"):
+def save_Train_Plot(timeToken, X_train, X_test, y_train, y_test, filename="TrainingPlot.png"):
     x_min = min(X_train.iloc[:, 0].min(), X_test.iloc[:, 0].min())
     x_max = max(X_train.iloc[:, 0].max(), X_test.iloc[:, 0].max())
     y_min = min(X_train.iloc[:, 1].min(), X_test.iloc[:, 1].min())
@@ -67,7 +68,7 @@ def save_Train_Plot(X_train, X_test, y_train, y_test, filename="TrainingPlot.png
     plt.ylim(y_min, y_max)
     plt.title('Test set')
     
-    save_Plot(filename)
+    save_Plot(timeToken, filename)
 
 def setup_Prediction(model,X,Data=None):
     """
@@ -95,7 +96,7 @@ def setup_Prediction(model,X,Data=None):
     
     return predictedDF
     
-def save_Prediction(predictedDF, filename, Data=None):   
+def save_Prediction(timeToken, predictedDF, filename, Data=None):   
     """
     Function to save the prediction in a CSV 
     
@@ -119,7 +120,7 @@ def save_Prediction(predictedDF, filename, Data=None):
     Result = pd.concat([sous_classe_column, predictedDF], axis=1)
     
     #Finally we save the prediction
-    save_Dataframe(Result, filename)
+    save_Dataframe(timeToken, Result, filename)
 
 
 

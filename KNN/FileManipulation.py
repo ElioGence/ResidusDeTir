@@ -21,19 +21,20 @@ def load_All_Data(csv_path="datasets"):
     
     for file in csv_files:
         csv_file = os.path.join(csv_path, file)
-        df = pd.read_csv(csv_file, encoding='UTF-16', sep='\t')
+        df = pd.read_csv(csv_file, encoding='UTF-16', sep='\t', low_memory=False) #Not sure for the low_memory
         dataframes.append(df)
 
     combined_df = pd.concat(dataframes, ignore_index=True)
     return combined_df
 
-def save_Plot(filename, directory="results\plot", dpi=300):
+def save_Plot(filename, directory="results/plot", dpi=300):
     """
     Save a plot without overwriting existing files
     
     Parameters:
         dpi (int): Resolution of the saved image.
     """
+    filename=timeToken+filename
     # Ensure the directory exists
     os.makedirs(directory, exist_ok=True)
     
@@ -52,10 +53,11 @@ def save_Plot(filename, directory="results\plot", dpi=300):
     print(f"Plot saved as: {filepath}")
     
     
-def save_Dataframe(df, filename, directory="results\csv"):
+def save_Dataframe(timeToken, df, filename, directory="results/csv"):
     """
     Save a DataFrame as a CSV file without overwriting existing files
     """
+    filename=timeToken+filename
     # Ensure the directory exists
     os.makedirs(directory, exist_ok=True)
     
@@ -70,11 +72,11 @@ def save_Dataframe(df, filename, directory="results\csv"):
         counter += 1
 
     # Save the DataFrame
-    df.to_csv(filepath, sep=';', index=False)
+    df.to_csv(filepath, sep='\t', index=True, encoding='utf-16')
     print(f"DataFrame saved as: {filepath}")
     
     
-def save_Dataframe_Info(df, filename="Info_Gunshotdata.csv", directory="results\csv"):
+def save_Dataframe_Info(timeToken, df, filename="Info_Gunshotdata.csv", directory="results/csv"):
     """
     Used to save .info of a dataframe
     Be carefull, it will overwrite the file
@@ -83,6 +85,7 @@ def save_Dataframe_Info(df, filename="Info_Gunshotdata.csv", directory="results\
     df.info(buf=buffer)
     info_str = buffer.getvalue()
     
+    filename=timeToken+filename
     filepath = os.path.join(directory, filename)
     with open(filepath, 'w') as f:
         f.write(df)
