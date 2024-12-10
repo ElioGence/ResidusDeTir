@@ -27,7 +27,7 @@ def load_All_Data(csv_path="datasets"):
     combined_df = pd.concat(dataframes, ignore_index=True)
     return combined_df
 
-def save_Plot(filename, directory="results/plot", dpi=300):
+def save_Plot(timeToken, filename, directory="results\plot", dpi=300):
     """
     Save a plot without overwriting existing files
     

@@ -16,7 +16,8 @@ def save_SubClass_Count(timeToken, Data=None):
     sous_classe_count =Data.loc[:, (Data.columns == "Sous-classe")]
     sous_classe_count=sous_classe_count['Sous-classe'].value_counts()
     sous_classe_count.column = ['Sous-classe','Nombre de valeur']
-    sous_classe_count.to_csv(r"results\csv\Info_SousClasseDecompte.csv", sep=';', index=True)
+    filepath= os.path.join("results", "csv", f"{timeToken}Info_SousClasseDecompte.csv")
+    sous_classe_count.to_csv(filepath, sep=';', index=True)
 
 def setup_X_y(timeToken, Data=None):
     """
