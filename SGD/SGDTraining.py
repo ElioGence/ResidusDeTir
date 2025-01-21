@@ -11,6 +11,13 @@ import random
 from random import randrange
 import pandas as pd
 import matplotlib.pyplot as plt
+
+import sys
+import os
+
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(parent_dir)
+
 from ModelSetup import *
 from FileManipulation import *
 from DataCleaning import *
@@ -29,23 +36,6 @@ def get_Best_Parameters_SGD(X, y):
     grid_search = GridSearchCV(SGDClassifier(), param_grid, cv=5)
     grid_search.fit(X, y)
     print(grid_search.best_params_)
-
-def save_Validation_Scores(timeToken, model, X_train, y_train, kmax=20):
-    k = np.arange(1, kmax)
-
-    train_scores, val_scores = validation_curve(model, X_train, y_train,
-                                              param_name='n_neighbors', param_range=k, cv=5)
-    
-    plt.figure(figsize=(8, 5))
-    plt.plot(k, val_scores.mean(axis=1), label='Validation Score')
-    plt.plot(k, train_scores.mean(axis=1), label='Train Score')
-    plt.ylabel('Score')
-    plt.xlabel('Number of Neighbors (k)')
-    plt.title("Validation Curve")
-    plt.legend()
-    plt.grid()
-    save_Plot(timeToken,"KNN_Validation_Scores.png")
-    plt.show()
 
 def save_Learning_Curve(timeToken, model, X_train, y_train):
     """
@@ -74,11 +64,11 @@ def training(timeToken):
     
     #get_Best_Parameters_SGD(X_train, y_train)
     
-    model = SGDClassifier(alpha= 0.0001, eta0= 1, learning_rate='adaptive',max_iter=1000, penalty='l1')
+    #model = SGDClassifier(alpha= 0.0001, eta0= 1, learning_rate='adaptive',max_iter=1000, penalty='l1')
     
     #save_Validation_Scores(timeToken, model, X_train, y_train)
     
-    save_Learning_Curve(timeToken, model, X_train, y_train)
+    #save_Learning_Curve(timeToken, model, X_train, y_train)
     
     #model.fit(X_train, y_train)
 
