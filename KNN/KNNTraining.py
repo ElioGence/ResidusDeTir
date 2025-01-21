@@ -8,6 +8,13 @@ import random
 from random import randrange
 import pandas as pd
 import matplotlib.pyplot as plt
+
+import sys
+import os
+
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(parent_dir)
+
 from ModelSetup import *
 from FileManipulation import *
 from DataCleaning import *
@@ -90,7 +97,7 @@ def get_Best_Number_Neighbors(timeToken,X,y,kmax=30):
     plt.ylabel("Accuracy")
     plt.title('Distance')
     
-    save_Plot(timeToken+"KNN_Weight_Comparaison.png")
+    save_Plot(timeToken,"KNN_Weight_Comparaison.png")
     plt.show()
     
     best_k=best_k_distance
@@ -117,7 +124,7 @@ def save_Validation_Scores(timeToken, model, X_train, y_train, kmax=20):
     plt.title("Validation Curve")
     plt.legend()
     plt.grid()
-    save_Plot(timeToken+"KNN_Validation_Scores.png")
+    save_Plot(timeToken,"KNN_Validation_Scores.png")
     plt.show()
 
 def save_Learning_Curve(timeToken, model, X_train, y_train):
@@ -132,7 +139,7 @@ def save_Learning_Curve(timeToken, model, X_train, y_train):
     plt.plot(N, val_score.mean(axis=1), label='validation')
     plt.xlabel('train_sizes')
     plt.legend()
-    save_Plot(timeToken+"KNN_Learning_Curve.png")
+    save_Plot(timeToken,"KNN_Learning_Curve.png")
     plt.show()
 
 
@@ -148,18 +155,17 @@ def training(timeToken):
     
     model = KNeighborsClassifier(n_neighbors=best_k)
     
-    #save_Validation_Scores(timeToken, model, X_train, y_train)
+    save_Validation_Scores(timeToken, model, X_train, y_train)
     
-    #save_Learning_Curve(timeToken, model, X_train, y_train)
+    save_Learning_Curve(timeToken, model, X_train, y_train)
     
     model.fit(X_train, y_train)
 
-    #predictedDF=setup_Prediction(model,X_train) 
+    predictedDF=setup_Prediction(model,X_train) 
     """ UPDATE TO MAKE A PREDICTION ON THE TEST VALUES"""
     
-    #save_Prediction(timeToken, predictedDF, "Result_KNN.csv", Data)
-    """ Last function need to be changed so that the differences can be visualised instead of just saving a csv"""
-
+    save_Prediction(timeToken, predictedDF, "Result_KNN.csv", Data)
+ 
 currentDT = datetime.datetime.now()
 timeToken = "("+str(currentDT.month)+str(currentDT.day)+str(currentDT.hour)+str(currentDT.minute)+str(currentDT.second)+")_"
 print("Time Token : "+timeToken)
